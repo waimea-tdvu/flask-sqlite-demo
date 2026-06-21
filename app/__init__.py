@@ -83,6 +83,24 @@ def show_all_creatures():
 
 
 #-----------------------------------------------------------
+# Creature deletion - Delete a creature via ID
+#-----------------------------------------------------------
+@app.get("/creature/<int:id>/delete")
+def delete_a_creature(id):
+    with connect_db() as db:
+        sql = """
+            DELETE FROM creatures
+            WHERE id=?
+        """
+        params = (id,)
+        db.execute(sql, params)
+
+        # Back to the list
+        flash("Creature deleted", "Success")
+        return redirect("/creatures")
+
+    
+#-----------------------------------------------------------
 # Help page - Show some help
 #-----------------------------------------------------------
 @app.get("/help")
